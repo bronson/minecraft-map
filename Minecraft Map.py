@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 # Minecraft coordinates. True means a location has a nether portal
 # and will be displayed in red, False means the location will be blue.
 villages = {
-    'Sea Ranch': (-2335, 0, 1338, True),
+    'Sea Ranch': (-2335, '?', 1338, True),
     'Hill Village': (-1200, 120, 600, True),
-    'Home Base': (-200, 0, 80, True),
-    'Snowy Village': (-1800, 0, -360, False),
+    'Home Base': (-200, '?', 80, True),
+    'Snowy Village': (-1800, '?', -360, False),
     'The Harbor': (298, 63, -430, True),
     'Lumberjack Lair': (-428, 64, 206, False),
     'Many Ores': (492, 63, -857, False)
@@ -14,7 +14,7 @@ villages = {
 
 
 #
-#  the script
+#     ok let's go
 #
 
 # Extract x and y coordinates and status
@@ -29,12 +29,21 @@ plt.figure(figsize=(10, 8))
 plt.scatter(x_coords, y_coords, s=100, color=colors)
 plt.gca().invert_xaxis()
 
-# Add village labels
+# Add village labels with coordinates
 for i, name in enumerate(names):
-    plt.annotate(name, (x_coords[i], y_coords[i]), 
-                 textcoords="offset points", 
-                 xytext=(0,10), 
+    # Add village name
+    plt.annotate(name, (x_coords[i], y_coords[i]),
+                 textcoords="offset points",
+                 xytext=(0,12),
                  ha='center')
+
+    # Add coordinates in smaller font right below name
+    coord_text = f"({villages[name][0]}, {villages[name][1]}, {villages[name][2]})"
+    plt.annotate(coord_text, (x_coords[i], y_coords[i]),
+                 textcoords="offset points",
+                 xytext=(0,6),
+                 ha='center',
+                 fontsize=5)
 
 # Add coordinate grid and labels
 plt.grid(False)  # Turn off default grid
@@ -54,7 +63,7 @@ y_grid_max = (int(y_max) // 512 + 1) * 512
 for i in range(y_grid_min, y_grid_max + 1, 512):
     plt.axhline(y=i, color='gray', linestyle='-', alpha=0.3)
 
-# For X (Z-coordinates), be careful with the range direction 
+# For X (Z-coordinates), be careful with the range direction
 # When x_grid_min > x_grid_max (due to inversion), we need to reverse the range
 x_range = range(x_grid_min, x_grid_max + 1, 512) if x_grid_min <= x_grid_max else range(x_grid_min, x_grid_max - 1, -512)
 for i in x_range:
