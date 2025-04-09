@@ -1,6 +1,6 @@
 # Minecraft Map
 
-A super quick & dirty approach to viewing a set of Minecraft coordinates
+A quick & dirty way to view a set of Minecraft coordinates
 as an X-Y graph.
 
 ## Features
@@ -10,10 +10,12 @@ as an X-Y graph.
 - Overrides matplotlib's tendency to stretch the map to make it look better
 - MIT licensed, use it however you like.
 
+<img src="https://github.com/user-attachments/assets/f1018139-0eb5-4720-b3a1-a752e3858f6a" alt="Example Map" width="400">
+
 ## To run:
 
 - Install matplotlib.
   - Fedora: `sudo dnf install python3-matplotlib-gtk4`
 - Clone this repo.
-- Delete the example coordiantes and enter yours.
+- Add your coordiantes to the top of the `Minecraft Map.py` file and delete the examples.
 - Run `python Minecraft\ Map.py`
