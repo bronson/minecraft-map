@@ -18,4 +18,4 @@ as an X-Y graph.
   - Fedora: `sudo dnf install python3-matplotlib-gtk4`
 - Clone this repo.
 - Add your coordiantes to the top of the `Minecraft Map.py` file and delete the examples.
-- Run `python Minecraft\ Map.py`
+- Run `python "Minecraft Map.py"`

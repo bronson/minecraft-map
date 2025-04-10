@@ -1,8 +1,12 @@
-import matplotlib.pyplot as plt
+# Minecraft Map, April 2025
+# A quick way to plot Minecraft coordinates.
 
-# Minecraft coordinates. True means a location has a nether portal
-# and will be displayed in red, False means the location will be blue.
-villages = {
+# The coordinates:
+# True means a location has a nether portal and will be displayed in red,
+# False means the location will be blue.
+# In Minecraft, X is left-right with negative to the West, and
+# Z is up-down with negative going to the North.
+villages = {         # X, Y, Z, has_portal
     'Sea Ranch': (-2335, '?', 1338, True),
     'Hill Village': (-1200, 120, 600, True),
     'Home Base': (-200, '?', 80, True),
@@ -17,29 +21,29 @@ villages = {
 #     ok let's go
 #
 
-# Extract x and y coordinates and status
-x_coords = [coord[2] for coord in villages.values()]
-y_coords = [coord[0] for coord in villages.values()]
+import matplotlib.pyplot as plt
+
+x_coords = [coord[0] for coord in villages.values()]
+z_coords = [coord[2] for coord in villages.values()]
 portals = [coord[3] for coord in villages.values()]
 colors = ['red' if s else 'blue' for s in portals]
 names = list(villages.keys())
 
 # Create scatter plot
 plt.figure(figsize=(10, 8))
-plt.scatter(x_coords, y_coords, s=100, color=colors)
-plt.gca().invert_xaxis()
+plt.scatter(x_coords, z_coords, s=100, color=colors)
 
 # Add village labels with coordinates
 for i, name in enumerate(names):
     # Add village name
-    plt.annotate(name, (x_coords[i], y_coords[i]),
+    plt.annotate(name, (x_coords[i], z_coords[i]),
                  textcoords="offset points",
                  xytext=(0,12),
                  ha='center')
 
     # Add coordinates in smaller font right below name
     coord_text = f"({villages[name][0]}, {villages[name][1]}, {villages[name][2]})"
-    plt.annotate(coord_text, (x_coords[i], y_coords[i]),
+    plt.annotate(coord_text, (x_coords[i], z_coords[i]),
                  textcoords="offset points",
                  xytext=(0,6),
                  ha='center',
@@ -48,43 +52,50 @@ for i, name in enumerate(names):
 # Add coordinate grid and labels
 plt.grid(False)  # Turn off default grid
 
-# Get current axis limits to maintain the same view
-x_min, x_max = plt.xlim()
-y_min, y_max = plt.ylim()
+# Find min and max of our data for setting fixed grid boundaries
+min_x, max_x = min(x_coords), max(x_coords)
+min_z, max_z = min(z_coords), max(z_coords)
+
+# Add padding to ensure all points are visible (10% on each side)
+x_padding = (max_x - min_x) * 0.1
+z_padding = (max_z - min_z) * 0.1
+
+# Set axis limits with padding
+x_min, x_max = min_x - x_padding, max_x + x_padding
+z_min, z_max = min_z - z_padding, max_z + z_padding
+
+grid_size = 512
 
 # Calculate grid line positions as multiples of 512
-# Handle the inverted x-axis differently by using the original min/max values
-x_grid_min = (int(x_min) // 512) * 512
-x_grid_max = (int(x_max) // 512 + 1) * 512
-y_grid_min = (int(y_min) // 512) * 512
-y_grid_max = (int(y_max) // 512 + 1) * 512
+x_grid_min = (int(x_min) // grid_size) * grid_size
+x_grid_max = (int(x_max) // grid_size + 1) * grid_size
+z_grid_min = (int(z_min) // grid_size) * grid_size
+z_grid_max = (int(z_max) // grid_size + 1) * grid_size
 
-# Create custom grid lines on multiples of 512
-for i in range(y_grid_min, y_grid_max + 1, 512):
-    plt.axhline(y=i, color='gray', linestyle='-', alpha=0.3)
+# Create X grid lines (vertical lines)
+x_grid_points = list(range(x_grid_min, x_grid_max + 1, grid_size))
+for x in x_grid_points:
+    plt.axvline(x=x, color='gray', linestyle='-', alpha=0.3)
 
-# For X (Z-coordinates), be careful with the range direction
-# When x_grid_min > x_grid_max (due to inversion), we need to reverse the range
-x_range = range(x_grid_min, x_grid_max + 1, 512) if x_grid_min <= x_grid_max else range(x_grid_min, x_grid_max - 1, -512)
-for i in x_range:
-    plt.axvline(x=i, color='gray', linestyle='-', alpha=0.3)
+# Create Z grid lines (horizontal lines)
+z_grid_points = list(range(z_grid_min, z_grid_max + 1, grid_size))
+for z in z_grid_points:
+    plt.axhline(y=z, color='gray', linestyle='-', alpha=0.3)
 
-# Set tick positions at multiples of 512
-plt.xticks(x_range)
-plt.yticks(range(y_grid_min, y_grid_max + 1, 512))
-
-# Add axis lines
+# Set up the axis lines, limits, and tick positions
 plt.axhline(y=0, color='k', linestyle='-', alpha=0.3)
 plt.axvline(x=0, color='k', linestyle='-', alpha=0.3)
+plt.xlim(x_min, x_max)
+plt.ylim(z_min, z_max)
+plt.xticks(x_grid_points)
+plt.yticks(z_grid_points)
 
-# Restore original view limits with the original min/max (inverted)
-orig_x_min, orig_x_max = plt.xlim()
-plt.xlim(orig_x_min, orig_x_max)
-plt.ylim(y_min, y_max)
+# Invert the y-axis since in Minecraft negative Z is North
+plt.gca().invert_yaxis()
 
 plt.title('Village Locations')
-plt.xlabel('Z Coordinate')
-plt.ylabel('X Coordinate')
+plt.xlabel('X Coordinate')
+plt.ylabel('Z Coordinate')
 
 # Make the plot square so that grid cells appear as squares
 plt.gca().set_aspect('equal')
