@@ -18,13 +18,13 @@ villages = {         # X, Y, Z, has_portal
 }
 
 skyways = {
-    'harbor onramp': ((288, 63, -477), (288, 105, -520)),
-    'harbor': ((0, 105, -520), (288, 105, -520)),
-    'snowy village onramp': ((-1854, 63, -289), (-1854, 105, -349)),
-    'snowy tunnel 1': ((-1392, 105, -349), (-836, 105, -349)),
-    'snowy tunnel 2': ((-1657, 105, -349), (-1578, 105, -349)),
-    'snowy village': ((-1854, 105, -349), (0, 105, -349)),
-    'snowy harbor': ((0, 105, -520), (0, 105, -349))
+    'harbor onramp': ((288, 63, -477), (288, 105, -520), False),
+    'harbor': ((0, 105, -520), (288, 105, -520), False),
+    'snowy village onramp': ((-1854, 63, -289), (-1854, 105, -349), False),
+    'snowy tunnel 1': ((-1392, 105, -349), (-836, 105, -349), True),
+    'snowy tunnel 2': ((-1657, 105, -349), (-1578, 105, -349), True),
+    'snowy village': ((-1854, 105, -349), (0, 105, -349), False),
+    'snowy harbor': ((0, 105, -520), (0, 105, -349), False)
 }
 
 
@@ -45,8 +45,11 @@ plt.figure(figsize=(10, 8))
 plt.scatter(x_coords, z_coords, s=100, color=colors)
 
 # Draw skyway lines
-for name, (start, end) in skyways.items():
-    plt.plot([start[0], end[0]], [start[2], end[2]], 'g-', alpha=0.7, linewidth=2)
+for name, (start, end, is_tunnel) in skyways.items():
+    if is_tunnel:
+        plt.plot([start[0], end[0]], [start[2], end[2]], 'darkgreen', alpha=0.9, linewidth=3)
+    else:
+        plt.plot([start[0], end[0]], [start[2], end[2]], 'g-', alpha=0.7, linewidth=2)
 
 # Add village labels with coordinates
 for i, name in enumerate(names):
