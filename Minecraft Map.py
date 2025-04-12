@@ -13,18 +13,24 @@ villages = {         # X, Y, Z, has_portal
     'Snowy Village': (-1854, 63, -289, False),
     'The Harbor': (298, 63, -430, True),
     'Lumberjack Lair': (-428, 64, 206, False),
+    'Boat House': (-754, 105, 30, False),
     'Many Ores': (492, 63, -857, False),
     'Beehive': (1093, 65, -460, False)
 }
 
-skyways = {
+skyways = {  # from point, to point, is_tunnel
     'harbor onramp': ((288, 63, -477), (288, 105, -520), False),
-    'harbor': ((0, 105, -520), (288, 105, -520), False),
+    'beehive onramp': ((1028, 79, -544), (1028, 105, -520), False),
+    'harbor rd': ((0, 105, -520), (1028, 105, -520), False),
     'snowy village onramp': ((-1854, 63, -289), (-1854, 105, -349), False),
     'snowy tunnel 1': ((-1392, 105, -349), (-836, 105, -349), True),
     'snowy tunnel 2': ((-1657, 105, -349), (-1578, 105, -349), True),
-    'snowy village': ((-1854, 105, -349), (0, 105, -349), False),
-    'snowy harbor': ((0, 105, -520), (0, 105, -349), False)
+    'snowy rd': ((-1854, 105, -349), (0, 105, -349), False),
+    'snowy harbor home': ((0, 105, -520), (0, 105, 100), False),
+    'snowy harbor home shack': ((0, 105, 100), (-74, 105, 100), False),
+    'homeshack rd': ((-88, 106, 87), (-223, 106, 87), False),
+    'homeboat rd': ((-224, 105, 0), (-748, 105, 0), False),
+    'boathouse rd': ((-749, 105, -349), (-749, 105, 100), False)
 }
 
 
