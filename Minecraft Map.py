@@ -19,27 +19,30 @@ villages = {         # X, Y, Z, has_portal
     'Zombie Village': (-2336, 105, 8, False)
 }
 
-skyways = {  # list of points followed by is_tunnel flag
-    'harbor onramp': [(288, 63, -477), (288, 105, -520), False],
-    'beehive onramp': [(1028, 79, -544), (1028, 105, -520), False],
-    'Harbor Rd': [(0, 105, -520), (1028, 105, -520), False],
-    'snowy village onramp': [(-1854, 63, -289), (-1854, 105, -350), False], # 1855?
-    'snowy tunnel 1': [(-1392, 105, -350), (-836, 105, -350), True],
-    'snowy tunnel 2': [(-1657, 105, -350), (-1578, 105, -350), True],
-    'snowy tunnel 3': [(-2177, 105, -350), (-1991, 105, -350), True],
-    'Snowy Rd': [(-2544, 105, -350), (0, 105, -350), False],
-    'snowy harbor home': [(0, 105, -520), (0, 105, 100), False],
-    'snowy harbor home shack': [(0, 105, 100), (-74, 105, 100), False],
-    'homeshack rd': [(-88, 106, 87), (-223, 106, 87), False],
-    'homeboat': [(-224, 105, 0), (-949, 105, 0), False],
-    'Boathouse Rd': [(-749, 105, -350), (-749, 105, 252), False],
-    'homesnowy': [(-224, 105, 96), (-224, 105, -350), False],
-    'tohill': [(-229, 110, 94), (-229, 113, 208), False],
-    'Lumberjack Rd': [(-229, 113, 208), (-355, 113, 208), False],
-    'lumberjack onramp': [(-355, 113, 208), (-407, 63, 208), False],
-    'Hill Village Rd': [(-228, 113, 208), (-228, 113, 595), (-1200, 113, 595), False],
-    'hill tunnel 1': [(-927, 113, 595), (-970, 113, 595), True],
-    'hill tunnel 2': [(-987, 113, 595), (-1200, 113, 595), True]
+skyways = {  # list of points followed by is_tunnel flag and show_label flag
+    # Format: [point1, point2, ..., is_tunnel, show_label]
+    # If show_label is True, the skyway name will be displayed on the graph
+    'harbor onramp': [(288, 63, -477), (288, 105, -520), False, False],
+    'beehive onramp': [(1028, 79, -544), (1028, 105, -520), False, False],
+    'Harbor Rd': [(0, 105, -520), (1028, 105, -520), False, True], # Show label
+    'snowy village onramp': [(-1854, 63, -289), (-1854, 105, -350), False, False],
+    'snowy tunnel 1': [(-1392, 105, -350), (-836, 105, -350), True, False],
+    'snowy tunnel 2': [(-1657, 105, -350), (-1578, 105, -350), True, False],
+    'snowy tunnel 3': [(-2177, 105, -350), (-1991, 105, -350), True, False],
+    'Snowy Rd': [(-2544, 105, -350), (0, 105, -350), False, True], # Show label
+    'snowy harbor home': [(0, 105, -520), (0, 105, 100), False, False],
+    'snowy harbor home shack': [(0, 105, 100), (-74, 105, 100), False, False],
+    'homeshack rd': [(-88, 106, 87), (-223, 106, 87), False, False],
+    'homeboat': [(-224, 105, 0), (-949, 105, 0), False, False],
+    'Boathouse Rd': [(-749, 105, -350), (-749, 105, 252), False, True], # Show label
+    'homesnowy': [(-224, 105, 96), (-224, 105, -350), False, False],
+    'tohill': [(-229, 110, 94), (-229, 113, 208), False, False],
+    'Lumberjack Rd': [(-229, 113, 208), (-355, 113, 208), False, True], # Show label
+    'lumberjack onramp': [(-355, 113, 208), (-407, 63, 208), False, False],
+    'Hill Village Rd': [(-228, 113, 208), (-228, 113, 595), (-1200, 113, 595), False, True], # Show label
+    'hill tunnel 1': [(-927, 113, 595), (-970, 113, 595), True, False],
+    'hill tunnel 2': [(-987, 113, 595), (-1200, 113, 595), True, False],
+    'Mountain Path': [(298, 63, -430), (400, 90, -500), (500, 75, -600), (600, 110, -550), (650, 120, -700), False, True] # Show label
 }
 
 
@@ -61,19 +64,45 @@ plt.scatter(x_coords, z_coords, s=100, color=colors)
 
 # Draw skyway lines
 for name, points in skyways.items():
-    # Last element is is_tunnel flag
-    is_tunnel = points[-1]
-    # All elements except last are coordinate points
-    coordinates = points[:-1]
+    # Last two elements are is_tunnel and show_label flags
+    show_label = points[-1]
+    is_tunnel = points[-2]
+    # All elements except last two are coordinate points
+    coordinates = points[:-2]
     
     # Extract X and Z coordinates for all points
     x_values = [point[0] for point in coordinates]
     z_values = [point[2] for point in coordinates]
     
+    # Plot the line
     if is_tunnel:
-        plt.plot(x_values, z_values, 'darkgreen', alpha=0.9, linewidth=3)
+        line = plt.plot(x_values, z_values, 'darkgreen', alpha=0.9, linewidth=3)[0]
     else:
-        plt.plot(x_values, z_values, 'g-', alpha=0.7, linewidth=2)
+        line = plt.plot(x_values, z_values, 'g-', alpha=0.7, linewidth=2)[0]
+    
+    # Add a label to the line if requested
+    if show_label:
+        # Find middle point of the path for label placement
+        middle_idx = len(x_values) // 2
+        
+        # For paths with multiple points, place label at midpoint
+        if len(x_values) > 2:
+            # Place at the middle segment
+            mid_x = x_values[middle_idx]
+            mid_z = z_values[middle_idx]
+        else:
+            # For simple two-point paths, place label at midpoint of the line
+            mid_x = (x_values[0] + x_values[-1]) / 2
+            mid_z = (z_values[0] + z_values[-1]) / 2
+        
+        # Add a slight offset for better visibility
+        plt.annotate(name, (mid_x, mid_z), 
+                    textcoords="offset points",
+                    xytext=(0, 6),
+                    ha='center',
+                    color='darkgreen',
+                    fontsize=8,
+                    bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="green", alpha=0.7))
 
 # Add village labels with coordinates
 for i, name in enumerate(names):
