@@ -16,7 +16,8 @@ villages = {
     'Boat House': (-754, 105, 30, False),
     'Many Ores': (492, 63, -857, False),
     'Beehive': (1093, 65, -460, False),
-    'Zombie Village': (-2336, 105, 8, False)
+    'Zombie Village': (-2336, 105, 8, False),
+    'Redstone Platform': (-2342, 105, 672, True)
 }
 
 skyways = {
@@ -78,7 +79,7 @@ skyways = {
         'label_offset': (0, 15),
         'label_fontsize': '-2'
     },
-    'homeboat': {
+    'homeboat': {  # unnamed random road between home base and the boathouse
         'points': [(-224, 105, 0), (-949, 105, 0)],
     },
 
@@ -93,15 +94,16 @@ skyways = {
         'show_label': False
     },
 
+    'Hill Village Rd': {
+        'points': [(-228, 110, 94), (-228, 113, 595), (-1200, 113, 595)],
+        'show_label': True,
+        'label_offset': (-35, 7)
+    },
     'Hill\nVillage\nRoad\nNorth': {
         'points': [(-224, 105, 96), (-224, 105, -350)],
         'show_label': True,
         'label_fontsize': '-3.5',
         'label_offset': (6, 2)
-    },
-    'Hill Village Rd': {
-        'points': [(-228, 110, 94), (-228, 113, 595), (-1200, 113, 595)],
-        'show_label': True
     },
     'hill tunnel 1': {
         'points': [(-927, 113, 595), (-970, 113, 595)],
@@ -110,7 +112,22 @@ skyways = {
     'hill tunnel 2': {
         'points': [(-987, 113, 595), (-1200, 113, 595)],
         'is_tunnel': True,
-    }
+    },
+
+    'Sea Ranch Rd': {
+        # 'points': [(-1192, 105, 600), (-2000, 105, 600), (-2000, 105, 1200), (-2331, 105, 1200), (-2331, 105, 1292), (-2331, 63, 1334)],
+        'points': [(-2331, 63, 1334), (-2331, 105, 1292), (-2331, 105, 1200), (-2000, 105, 1200), (-2000, 105, 600), (-1192, 105, 600)],
+        'show_label': True,
+        'label_offset': (40, 70)
+    },
+    'sea ranch tunnel 1': {
+        'points': [(-1192, 105, 600), (-1248, 105, 600)],
+        'is_tunnel': True,
+    },
+    'sea ranch tunnel 2': {
+        'points': [(-1614, 105, 600), (-1799, 105, 600)],
+        'is_tunnel': True,
+    },
 }
 
 
