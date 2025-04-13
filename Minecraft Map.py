@@ -1,12 +1,12 @@
 # Minecraft Map, April 2025
 # A quick way to plot Minecraft coordinates.
 
-# The coordinates:
-# True means a location has a nether portal and will be displayed in red,
-# False means the location will be blue.
-# In Minecraft, X is left-right with negative to the West, and
-# Z is up-down with negative going to the North.
-villages = {         # X, Y, Z, has_portal
+villages = {
+    # X, Y, Z, has_portal
+    # if has_portal is True, that means the location has a nether portal
+    # and will be displayed in red, False means the location will be blue.
+    # In Minecraft coordinates, X is left-right with negative to the West,
+    # and Z is up-down with negative going to the North.
     'Sea Ranch': (-2335, '?', 1338, True),
     'Hill Village': (-1200, 120, 600, True),
     'Home Base': (-200, '?', 80, True),
@@ -19,30 +19,121 @@ villages = {         # X, Y, Z, has_portal
     'Zombie Village': (-2336, 105, 8, False)
 }
 
-skyways = {  # list of points followed by is_tunnel flag and show_label flag
-    # Format: [point1, point2, ..., is_tunnel, show_label]
-    # If show_label is True, the skyway name will be displayed on the graph
-    'harbor onramp': [(288, 63, -477), (288, 105, -520), False, False],
-    'beehive onramp': [(1028, 79, -544), (1028, 105, -520), False, False],
-    'Harbor Rd': [(0, 105, -520), (1028, 105, -520), False, True], # Show label
-    'snowy village onramp': [(-1854, 63, -289), (-1854, 105, -350), False, False],
-    'snowy tunnel 1': [(-1392, 105, -350), (-836, 105, -350), True, False],
-    'snowy tunnel 2': [(-1657, 105, -350), (-1578, 105, -350), True, False],
-    'snowy tunnel 3': [(-2177, 105, -350), (-1991, 105, -350), True, False],
-    'Snowy Rd': [(-2544, 105, -350), (0, 105, -350), False, True], # Show label
-    'snowy harbor home': [(0, 105, -520), (0, 105, 100), False, False],
-    'snowy harbor home shack': [(0, 105, 100), (-74, 105, 100), False, False],
-    'homeshack rd': [(-88, 106, 87), (-223, 106, 87), False, False],
-    'homeboat': [(-224, 105, 0), (-949, 105, 0), False, False],
-    'Boathouse Rd': [(-749, 105, -350), (-749, 105, 252), False, True], # Show label
-    'homesnowy': [(-224, 105, 96), (-224, 105, -350), False, False],
-    'tohill': [(-229, 110, 94), (-229, 113, 208), False, False],
-    'Lumberjack Rd': [(-229, 113, 208), (-355, 113, 208), False, True], # Show label
-    'lumberjack onramp': [(-355, 113, 208), (-407, 63, 208), False, False],
-    'Hill Village Rd': [(-228, 113, 208), (-228, 113, 595), (-1200, 113, 595), False, True], # Show label
-    'hill tunnel 1': [(-927, 113, 595), (-970, 113, 595), True, False],
-    'hill tunnel 2': [(-987, 113, 595), (-1200, 113, 595), True, False],
-    'Mountain Path': [(298, 63, -430), (400, 90, -500), (500, 75, -600), (600, 110, -550), (650, 120, -700), False, True] # Show label
+skyways = {
+    # - points: List of coordinate tuples
+    # - is_tunnel: Boolean flag for tunnel style
+    # - show_label: Boolean flag to display name on map
+    
+    'harbor onramp': {
+        'points': [(288, 63, -477), (288, 105, -520)],
+        'is_tunnel': False,
+        'show_label': False
+    },
+    'beehive onramp': {
+        'points': [(1028, 79, -544), (1028, 105, -520)],
+        'is_tunnel': False,
+        'show_label': False
+    },
+    'Harbor Rd': {
+        'points': [(0, 105, -520), (1028, 105, -520)],
+        'is_tunnel': False,
+        'show_label': True
+    },
+
+    'Snowy Rd': {
+        'points': [(-2544, 105, -350), (0, 105, -350)],
+        'is_tunnel': False,
+        'show_label': True
+    },
+    'snowy village onramp': {
+        'points': [(-1854, 63, -289), (-1854, 105, -350)],
+        'is_tunnel': False,
+        'show_label': False
+    },
+    'snowy tunnel 1': {
+        'points': [(-1392, 105, -350), (-836, 105, -350)],
+        'is_tunnel': True,
+        'show_label': False
+    },
+    'snowy tunnel 2': {
+        'points': [(-1657, 105, -350), (-1578, 105, -350)],
+        'is_tunnel': True,
+        'show_label': False
+    },
+    'snowy tunnel 3': {
+        'points': [(-2177, 105, -350), (-1991, 105, -350)],
+        'is_tunnel': True,
+        'show_label': False
+    },
+
+    'snowy harbor home': {
+        'points': [(0, 105, -520), (0, 105, 100)],
+        'is_tunnel': False,
+        'show_label': False
+    },
+    'snowy harbor home shack': {
+        'points': [(0, 105, 100), (-74, 105, 100)],
+        'is_tunnel': False,
+        'show_label': False
+    },
+    'homesnowy': {
+        'points': [(-224, 105, 96), (-224, 105, -350)],
+        'is_tunnel': False,
+        'show_label': False
+    },
+    'homeshack rd': {
+        'points': [(-88, 106, 87), (-223, 106, 87)],
+        'is_tunnel': False,
+        'show_label': False
+    },
+
+    'Boathouse Rd': {
+        'points': [(-749, 105, -350), (-749, 105, 252)],
+        'is_tunnel': False,
+        'show_label': True
+    },
+    'homeboat': {
+        'points': [(-224, 105, 0), (-949, 105, 0)],
+        'is_tunnel': False,
+        'show_label': False
+    },
+
+    'tohill': {
+        'points': [(-229, 110, 94), (-229, 113, 208)],
+        'is_tunnel': False,
+        'show_label': False
+    },
+    'Lumberjack Rd': {
+        'points': [(-229, 113, 208), (-355, 113, 208)],
+        'is_tunnel': False,
+        'show_label': True
+    },
+    'lumberjack onramp': {
+        'points': [(-355, 113, 208), (-407, 63, 208)],
+        'is_tunnel': False,
+        'show_label': False
+    },
+
+    'Hill Village Rd': {
+        'points': [(-228, 113, 208), (-228, 113, 595), (-1200, 113, 595)],
+        'is_tunnel': False,
+        'show_label': True
+    },
+    'hill tunnel 1': {
+        'points': [(-927, 113, 595), (-970, 113, 595)],
+        'is_tunnel': True,
+        'show_label': False
+    },
+    'hill tunnel 2': {
+        'points': [(-987, 113, 595), (-1200, 113, 595)],
+        'is_tunnel': True,
+        'show_label': False
+    },
+    'Mountain Path': {
+        'points': [(298, 63, -430), (400, 90, -500), (500, 75, -600), (600, 110, -550), (650, 120, -700)],
+        'is_tunnel': False,
+        'show_label': True
+    }
 }
 
 
@@ -63,16 +154,15 @@ plt.figure(figsize=(10, 8))
 plt.scatter(x_coords, z_coords, s=100, color=colors)
 
 # Draw skyway lines
-for name, points in skyways.items():
-    # Last two elements are is_tunnel and show_label flags
-    show_label = points[-1]
-    is_tunnel = points[-2]
-    # All elements except last two are coordinate points
-    coordinates = points[:-2]
+for name, skyway in skyways.items():
+    # Get properties from the skyway dictionary
+    points = skyway['points']
+    is_tunnel = skyway['is_tunnel']
+    show_label = skyway['show_label']
     
     # Extract X and Z coordinates for all points
-    x_values = [point[0] for point in coordinates]
-    z_values = [point[2] for point in coordinates]
+    x_values = [point[0] for point in points]
+    z_values = [point[2] for point in points]
     
     # Plot the line
     if is_tunnel:
@@ -173,4 +263,5 @@ plt.gca().set_aspect('equal')
 
 plt.tight_layout()
 plt.savefig('minecraft_map.png')
+print("Map saved as minecraft_map.png")
 plt.show()
