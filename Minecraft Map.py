@@ -20,119 +20,88 @@ villages = {
 }
 
 skyways = {
-    # - points: List of coordinate tuples
-    # - is_tunnel: Boolean flag for tunnel style
-    # - show_label: Boolean flag to display name on map
+    # - points: List of coordinate tuples (required)
+    # - is_tunnel: Boolean flag for tunnel style (defaults to False if not specified)
+    # - show_label: Boolean flag to display name on map (defaults to False if not specified)
+    # - label_offset: Optional (x, y) offset in pixels for label placement (defaults to (0, 6))
     
     'harbor onramp': {
-        'points': [(288, 63, -477), (288, 105, -520)],
-        'is_tunnel': False,
-        'show_label': False
+        'points': [(288, 63, -477), (288, 105, -520)]
     },
     'beehive onramp': {
-        'points': [(1028, 79, -544), (1028, 105, -520)],
-        'is_tunnel': False,
-        'show_label': False
+        'points': [(1028, 79, -544), (1028, 105, -520)]
     },
     'Harbor Rd': {
         'points': [(0, 105, -520), (1028, 105, -520)],
-        'is_tunnel': False,
         'show_label': True
+        # 'label_offset': (0, -20)  # Offset 20 pixels down
     },
 
     'Snowy Rd': {
         'points': [(-2544, 105, -350), (0, 105, -350)],
-        'is_tunnel': False,
         'show_label': True
     },
     'snowy village onramp': {
         'points': [(-1854, 63, -289), (-1854, 105, -350)],
-        'is_tunnel': False,
-        'show_label': False
     },
     'snowy tunnel 1': {
         'points': [(-1392, 105, -350), (-836, 105, -350)],
-        'is_tunnel': True,
-        'show_label': False
+        'is_tunnel': True
     },
     'snowy tunnel 2': {
         'points': [(-1657, 105, -350), (-1578, 105, -350)],
         'is_tunnel': True,
-        'show_label': False
     },
     'snowy tunnel 3': {
         'points': [(-2177, 105, -350), (-1991, 105, -350)],
         'is_tunnel': True,
-        'show_label': False
     },
 
     'snowy harbor home': {
         'points': [(0, 105, -520), (0, 105, 100)],
-        'is_tunnel': False,
-        'show_label': False
     },
     'snowy harbor home shack': {
         'points': [(0, 105, 100), (-74, 105, 100)],
-        'is_tunnel': False,
-        'show_label': False
     },
     'homesnowy': {
         'points': [(-224, 105, 96), (-224, 105, -350)],
-        'is_tunnel': False,
-        'show_label': False
     },
     'homeshack rd': {
         'points': [(-88, 106, 87), (-223, 106, 87)],
-        'is_tunnel': False,
-        'show_label': False
     },
 
     'Boathouse Rd': {
         'points': [(-749, 105, -350), (-749, 105, 252)],
-        'is_tunnel': False,
         'show_label': True
     },
     'homeboat': {
         'points': [(-224, 105, 0), (-949, 105, 0)],
-        'is_tunnel': False,
-        'show_label': False
     },
 
     'tohill': {
         'points': [(-229, 110, 94), (-229, 113, 208)],
-        'is_tunnel': False,
-        'show_label': False
     },
     'Lumberjack Rd': {
         'points': [(-229, 113, 208), (-355, 113, 208)],
-        'is_tunnel': False,
         'show_label': True
     },
     'lumberjack onramp': {
         'points': [(-355, 113, 208), (-407, 63, 208)],
-        'is_tunnel': False,
         'show_label': False
     },
 
     'Hill Village Rd': {
         'points': [(-228, 113, 208), (-228, 113, 595), (-1200, 113, 595)],
-        'is_tunnel': False,
         'show_label': True
+        # 'label_offset': (-50, 15)
     },
     'hill tunnel 1': {
         'points': [(-927, 113, 595), (-970, 113, 595)],
         'is_tunnel': True,
-        'show_label': False
     },
     'hill tunnel 2': {
         'points': [(-987, 113, 595), (-1200, 113, 595)],
         'is_tunnel': True,
-        'show_label': False
-    },
-    'Mountain Path': {
-        'points': [(298, 63, -430), (400, 90, -500), (500, 75, -600), (600, 110, -550), (650, 120, -700)],
-        'is_tunnel': False,
-        'show_label': True
     }
 }
 
@@ -155,10 +124,10 @@ plt.scatter(x_coords, z_coords, s=100, color=colors)
 
 # Draw skyway lines
 for name, skyway in skyways.items():
-    # Get properties from the skyway dictionary
+    # Get properties from the skyway dictionary with defaults
     points = skyway['points']
-    is_tunnel = skyway['is_tunnel']
-    show_label = skyway['show_label']
+    is_tunnel = skyway.get('is_tunnel', False)  # Default to False if not specified
+    show_label = skyway.get('show_label', False)  # Default to False if not specified
     
     # Extract X and Z coordinates for all points
     x_values = [point[0] for point in points]
@@ -185,10 +154,14 @@ for name, skyway in skyways.items():
             mid_x = (x_values[0] + x_values[-1]) / 2
             mid_z = (z_values[0] + z_values[-1]) / 2
         
-        # Add a slight offset for better visibility
+        # Check if a custom label offset has been provided
+        # Default offset is (0, 6) pixels
+        label_offset = skyway.get('label_offset', (0, 6))
+
+        # Add the label with appropriate offset
         plt.annotate(name, (mid_x, mid_z), 
                     textcoords="offset points",
-                    xytext=(0, 6),
+                    xytext=label_offset,
                     ha='center',
                     color='darkgreen',
                     fontsize=8,
