@@ -15,26 +15,31 @@ villages = {         # X, Y, Z, has_portal
     'Lumberjack Lair': (-428, 64, 206, False),
     'Boat House': (-754, 105, 30, False),
     'Many Ores': (492, 63, -857, False),
-    'Beehive': (1093, 65, -460, False)
+    'Beehive': (1093, 65, -460, False),
+    'Zombie Village': (-2336, 105, 8, False)
 }
 
-skyways = {  # from point, to point, is_tunnel
-    'harbor onramp': ((288, 63, -477), (288, 105, -520), False),
-    'beehive onramp': ((1028, 79, -544), (1028, 105, -520), False),
-    'Harbor Rd': ((0, 105, -520), (1028, 105, -520), False),
-    'snowy village onramp': ((-1854, 63, -289), (-1854, 105, -349), False),
-    'snowy tunnel 1': ((-1392, 105, -349), (-836, 105, -349), True),
-    'snowy tunnel 2': ((-1657, 105, -349), (-1578, 105, -349), True),
-    'Snowy Rd': ((-1854, 105, -349), (0, 105, -349), False),
-    'snowy harbor home': ((0, 105, -520), (0, 105, 100), False),
-    'snowy harbor home shack': ((0, 105, 100), (-74, 105, 100), False),
-    'homeshack rd': ((-88, 106, 87), (-223, 106, 87), False),
-    'homeboat': ((-224, 105, 0), (-949, 105, 0), False),
-    'Boathouse Rd': ((-749, 105, -349), (-749, 105, 252), False),
-    'homesnowy': ((-224, 105, 96), (-224, 105, -350), False),
-    'tohill': ((-229, 110, 94), (-229, 113, 208), False),
-    'Lumberjack Rd': ((-229, 113, 208), (-355, 113, 208), False),
-    'lumberjack onramp': ((-355, 113, 208), (-407, 63, 208), False)
+skyways = {  # list of points followed by is_tunnel flag
+    'harbor onramp': [(288, 63, -477), (288, 105, -520), False],
+    'beehive onramp': [(1028, 79, -544), (1028, 105, -520), False],
+    'Harbor Rd': [(0, 105, -520), (1028, 105, -520), False],
+    'snowy village onramp': [(-1854, 63, -289), (-1854, 105, -350), False], # 1855?
+    'snowy tunnel 1': [(-1392, 105, -350), (-836, 105, -350), True],
+    'snowy tunnel 2': [(-1657, 105, -350), (-1578, 105, -350), True],
+    'snowy tunnel 3': [(-2177, 105, -350), (-1991, 105, -350), True],
+    'Snowy Rd': [(-2544, 105, -350), (0, 105, -350), False],
+    'snowy harbor home': [(0, 105, -520), (0, 105, 100), False],
+    'snowy harbor home shack': [(0, 105, 100), (-74, 105, 100), False],
+    'homeshack rd': [(-88, 106, 87), (-223, 106, 87), False],
+    'homeboat': [(-224, 105, 0), (-949, 105, 0), False],
+    'Boathouse Rd': [(-749, 105, -350), (-749, 105, 252), False],
+    'homesnowy': [(-224, 105, 96), (-224, 105, -350), False],
+    'tohill': [(-229, 110, 94), (-229, 113, 208), False],
+    'Lumberjack Rd': [(-229, 113, 208), (-355, 113, 208), False],
+    'lumberjack onramp': [(-355, 113, 208), (-407, 63, 208), False],
+    'Hill Village Rd': [(-228, 113, 208), (-228, 113, 595), (-1200, 113, 595), False],
+    'hill tunnel 1': [(-927, 113, 595), (-970, 113, 595), True],
+    'hill tunnel 2': [(-987, 113, 595), (-1200, 113, 595), True]
 }
 
 
@@ -55,11 +60,20 @@ plt.figure(figsize=(10, 8))
 plt.scatter(x_coords, z_coords, s=100, color=colors)
 
 # Draw skyway lines
-for name, (start, end, is_tunnel) in skyways.items():
+for name, points in skyways.items():
+    # Last element is is_tunnel flag
+    is_tunnel = points[-1]
+    # All elements except last are coordinate points
+    coordinates = points[:-1]
+    
+    # Extract X and Z coordinates for all points
+    x_values = [point[0] for point in coordinates]
+    z_values = [point[2] for point in coordinates]
+    
     if is_tunnel:
-        plt.plot([start[0], end[0]], [start[2], end[2]], 'darkgreen', alpha=0.9, linewidth=3)
+        plt.plot(x_values, z_values, 'darkgreen', alpha=0.9, linewidth=3)
     else:
-        plt.plot([start[0], end[0]], [start[2], end[2]], 'g-', alpha=0.7, linewidth=2)
+        plt.plot(x_values, z_values, 'g-', alpha=0.7, linewidth=2)
 
 # Add village labels with coordinates
 for i, name in enumerate(names):
@@ -129,4 +143,5 @@ plt.ylabel('Z Coordinate')
 plt.gca().set_aspect('equal')
 
 plt.tight_layout()
+plt.savefig('minecraft_map.png')
 plt.show()
