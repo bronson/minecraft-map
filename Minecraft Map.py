@@ -10,13 +10,13 @@ villages = {
     'Sea Ranch': (-2335, '?', 1338, True),
     'Hill Village': (-1200, 120, 600, True),
     'Home Base': (-200, '?', 80, True),
-    'Snowy Village': (-1854, 63, -289, False),
+    'Snowy Village': (-1854, 63, -289, True),
     'The Harbor': (298, 63, -430, True),
     'Lumberjack Lair': (-428, 64, 206, False),
     'Boat House': (-754, 105, 30, False),
     'Many Ores': (492, 63, -857, False),
     'Beehive': (1093, 65, -460, False),
-    'Zombie Village': (-2336, 105, 8, False),
+    'Zombie Village': (-2336, 105, 8, True),
     'Redstone Platform': (-2342, 105, 672, True)
 }
 
@@ -258,16 +258,16 @@ z_grid_max = (int(z_max) // grid_size + 1) * grid_size
 # Create X grid lines (vertical lines)
 x_grid_points = list(range(x_grid_min, x_grid_max + 1, grid_size))
 for x in x_grid_points:
-    plt.axvline(x=x, color='gray', linestyle='-', alpha=0.3)
+    plt.axvline(x=x, color='gray', linestyle='-', linewidth=0.5, alpha=0.25)
 
 # Create Z grid lines (horizontal lines)
 z_grid_points = list(range(z_grid_min, z_grid_max + 1, grid_size))
 for z in z_grid_points:
-    plt.axhline(y=z, color='gray', linestyle='-', alpha=0.3)
+    plt.axhline(y=z, color='gray', linestyle='-', linewidth=0.5, alpha=0.25)
 
 # Set up the axis lines, limits, and tick positions
-plt.axhline(y=0, color='k', linestyle='-', alpha=0.3)
-plt.axvline(x=0, color='k', linestyle='-', alpha=0.3)
+plt.axhline(y=0, color='k', linestyle='-', linewidth=0.5, alpha=0.25)
+plt.axvline(x=0, color='k', linestyle='-', linewidth=0.5, alpha=0.25)
 plt.xlim(x_min, x_max)
 plt.ylim(z_min, z_max)
 plt.xticks(x_grid_points)
@@ -284,6 +284,6 @@ plt.ylabel('Z Coordinate')
 plt.gca().set_aspect('equal')
 
 plt.tight_layout()
-plt.savefig('minecraft_map.png')
+plt.savefig('minecraft-map.png')
 print("Map saved as minecraft_map.png")
 plt.show()

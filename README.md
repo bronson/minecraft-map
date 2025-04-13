@@ -10,7 +10,7 @@ as an X-Y graph.
 - Overrides matplotlib's tendency to stretch the map to make it look better
 - MIT licensed, use it however you like.
 
-<img src="https://github.com/user-attachments/assets/fb54109b-d313-408b-afb2-581659be45df" alt="Example Map" width="400">
+<img src="minecraft-map.png" alt="Example Map" width="400">
 
 ## To run:
 
