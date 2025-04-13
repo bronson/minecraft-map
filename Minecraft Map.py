@@ -24,6 +24,8 @@ skyways = {
     # - is_tunnel: Boolean flag for tunnel style (defaults to False if not specified)
     # - show_label: Boolean flag to display name on map (defaults to False if not specified)
     # - label_offset: Optional (x, y) offset in pixels for label placement (defaults to (0, 6))
+    # - label_fontsize: Relative font size adjustment (e.g., '+2' makes text larger, '-2' makes it smaller)
+    # - label_rotation: Rotation angle in degrees (defaults to 0 for horizontal, try 90 for vertical)
     
     'harbor onramp': {
         'points': [(288, 63, -477), (288, 105, -520)]
@@ -33,13 +35,15 @@ skyways = {
     },
     'Harbor Rd': {
         'points': [(0, 105, -520), (1028, 105, -520)],
-        'show_label': True
-        # 'label_offset': (0, -20)  # Offset 20 pixels down
+        'show_label': True,
+        'label_offset': (30, 6.5)
     },
 
     'Snowy Rd': {
         'points': [(-2544, 105, -350), (0, 105, -350)],
-        'show_label': True
+        'show_label': True,
+        'label_fontsize': '+3',
+        'label_offset': (0, 8)
     },
     'snowy village onramp': {
         'points': [(-1854, 63, -289), (-1854, 105, -350)],
@@ -72,7 +76,9 @@ skyways = {
 
     'Boathouse Rd': {
         'points': [(-749, 105, -350), (-749, 105, 252)],
-        'show_label': True
+        'show_label': True,
+        'label_offset': (0, 15),
+        'label_fontsize': '-2'
     },
     'homeboat': {
         'points': [(-224, 105, 0), (-949, 105, 0)],
@@ -83,7 +89,9 @@ skyways = {
     },
     'Lumberjack Rd': {
         'points': [(-229, 113, 208), (-355, 113, 208)],
-        'show_label': True
+        'show_label': True,
+        'label_fontsize': '-2',  # 2 points smaller than default
+        'label_offset': (-10, -10)
     },
     'lumberjack onramp': {
         'points': [(-355, 113, 208), (-407, 63, 208)],
@@ -93,7 +101,6 @@ skyways = {
     'Hill Village Rd': {
         'points': [(-228, 113, 208), (-228, 113, 595), (-1200, 113, 595)],
         'show_label': True
-        # 'label_offset': (-50, 15)
     },
     'hill tunnel 1': {
         'points': [(-927, 113, 595), (-970, 113, 595)],
@@ -154,17 +161,34 @@ for name, skyway in skyways.items():
             mid_x = (x_values[0] + x_values[-1]) / 2
             mid_z = (z_values[0] + z_values[-1]) / 2
         
-        # Check if a custom label offset has been provided
-        # Default offset is (0, 6) pixels
+        # Get label customization options with defaults
         label_offset = skyway.get('label_offset', (0, 6))
+        
+        # Handle relative font sizes
+        default_fontsize = 8
+        label_fontsize_adjustment = skyway.get('label_fontsize', '0')  # Default to no adjustment
+        
+        # Apply the relative adjustment to the default font size
+        if label_fontsize_adjustment.startswith('+') or label_fontsize_adjustment.startswith('-'):
+            label_fontsize = default_fontsize + float(label_fontsize_adjustment)
+        else:
+            # If just a number is provided, treat it as a relative adjustment
+            try:
+                label_fontsize = default_fontsize + float(label_fontsize_adjustment)
+            except ValueError:
+                # If conversion fails, use default
+                label_fontsize = default_fontsize
+            
+        label_rotation = skyway.get('label_rotation', 0)
 
-        # Add the label with appropriate offset
+        # Add the label with appropriate styling
         plt.annotate(name, (mid_x, mid_z), 
                     textcoords="offset points",
                     xytext=label_offset,
                     ha='center',
                     color='darkgreen',
-                    fontsize=8,
+                    fontsize=label_fontsize,
+                    rotation=label_rotation,
                     bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="green", alpha=0.7))
 
 # Add village labels with coordinates
