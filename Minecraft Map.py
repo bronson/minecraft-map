@@ -61,16 +61,14 @@ skyways = {
         'is_tunnel': True,
     },
 
-    'snowy harbor home': {
-        'points': [(0, 105, -520), (0, 105, 100)],
+    'Homeshack Rd': {
+        'points': [(0, 105, -520), (0, 105, 100), (-74, 105, 100)],
+        'show_label': True,
+        'label_fontsize': '-2',
+        'label_offset': (8, 20),
+        'label_rotation': 90
     },
-    'snowy harbor home shack': {
-        'points': [(0, 105, 100), (-74, 105, 100)],
-    },
-    'homesnowy': {
-        'points': [(-224, 105, 96), (-224, 105, -350)],
-    },
-    'homeshack rd': {
+    'Homeshack Rd Close': {
         'points': [(-88, 106, 87), (-223, 106, 87)],
     },
 
@@ -84,13 +82,10 @@ skyways = {
         'points': [(-224, 105, 0), (-949, 105, 0)],
     },
 
-    'tohill': {
-        'points': [(-229, 110, 94), (-229, 113, 208)],
-    },
     'Lumberjack Rd': {
         'points': [(-229, 113, 208), (-355, 113, 208)],
         'show_label': True,
-        'label_fontsize': '-2',  # 2 points smaller than default
+        'label_fontsize': '-2',
         'label_offset': (-10, -10)
     },
     'lumberjack onramp': {
@@ -98,8 +93,14 @@ skyways = {
         'show_label': False
     },
 
+    'Hill\nVillage\nRoad\nNorth': {
+        'points': [(-224, 105, 96), (-224, 105, -350)],
+        'show_label': True,
+        'label_fontsize': '-3.5',
+        'label_offset': (6, 2)
+    },
     'Hill Village Rd': {
-        'points': [(-228, 113, 208), (-228, 113, 595), (-1200, 113, 595)],
+        'points': [(-228, 110, 94), (-228, 113, 595), (-1200, 113, 595)],
         'show_label': True
     },
     'hill tunnel 1': {
