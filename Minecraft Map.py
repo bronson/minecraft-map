@@ -128,6 +128,13 @@ skyways = {
         'points': [(-1614, 105, 600), (-1799, 105, 600)],
         'is_tunnel': True,
     },
+
+    'Zombie Rd': {
+        'points': [(-2336, 105, 1229), (-2336, 105, -350)],
+        'show_label': True,
+        'label_rotation': 90,
+        'label_offset': (9, 0)
+    },
 }
 
 
