@@ -23,8 +23,11 @@ VILLAGES = {
     'Many Ores': (52, 39, -122, True),
     'Hidey Hole': (150, 61, -182, True),
     'Beehive': (114, 40, -81, True),
-    'Mansion': (-593, 73, -144, False),
     'Pandora': (-471, 98, -53, True),
+    'Woodland': (-531, 74, -90, True),
+    'Mansion': (-593, 73, -144, True),
+    'Wuwey': (-749, 77, -192, True),
+    'Pitchfork': (-261, 61, 216, True),
 }
 
 # paths between locations
@@ -71,6 +74,15 @@ SKYWAYS = {
     'four_seasons_to_pandora': {
         'points': [(-526, 63, 120), (-471, 98, -53)],
     },
+    'pandora_to_woodland': {
+        'points': [(-471, 98, -53), (-531, 74, -90)],
+    },
+    'woodland_to_mansion': {
+        'points': [(-531, 74, -90), (-593, 73, -144)],
+    },
+    'mansion_to_wuwey': {
+        'points': [(-593, 73, -144), (-749, 77, -192)],
+    },
 
     'sea_ranch_to_redstone_platform': {
         'points': [(-294, 61, 166), (-287, 99, 87)],
@@ -93,8 +105,9 @@ SKYWAYS = {
     'harbor_to_beehive': {
         'points': [(62, 40, -52), (114, 40, -81)],
     },
-
-
+    'searanch_to_pitchfork': {
+        'points': [(-294, 61, 166), (-261, 61, 216)],
+    },
 
 
 
